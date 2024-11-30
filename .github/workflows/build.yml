@@ -6,6 +6,8 @@ on:
 jobs:
   pull_and_push:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
 
     steps:
       # Log in to GitHub Container Registry
