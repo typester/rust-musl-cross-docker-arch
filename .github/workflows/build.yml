@@ -27,5 +27,7 @@ jobs:
       # Retag and push the pulled image to GHCR
       - name: Tag and push image
         run: |
-          docker tag messense/rust-musl-cross:${{ matrix.tag }} ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:${{ env.RUST_VERSION }}
-          docker push ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:${{ env.RUST_VERSION }}
+          docker tag messense/rust-musl-cross:x86_64-musl ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:${{ env.RUST_VERSION }}
+          docker push --platform linux/amd64 ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:${{ env.RUST_VERSION }}
+          docker tag messense/rust-musl-cross:aarch64-musl ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:${{ env.RUST_VERSION }}
+          docker push --platform linux/arm64 ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:${{ env.RUST_VERSION }}
