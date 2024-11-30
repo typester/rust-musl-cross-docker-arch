@@ -23,6 +23,7 @@ jobs:
         id: get_version
         run: |
           docker pull messense/rust-musl-cross:x86_64-musl
+          docker pull messense/rust-musl-cross:aarch64-musl
           RUST_VERSION=$(docker run --rm messense/rust-musl-cross:x86_64-musl rustc --version | awk '{print $2}')
           echo "RUST_VERSION=${RUST_VERSION}" >> $GITHUB_ENV
 
@@ -31,5 +32,10 @@ jobs:
         run: |
           docker tag messense/rust-musl-cross:x86_64-musl ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:${{ env.RUST_VERSION }}-amd64
           docker push ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:${{ env.RUST_VERSION }}-amd64
+          docker tag messense/rust-musl-cross:x86_64-musl ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:latest-amd64
+          docker push ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:latest-amd64
+
           docker tag messense/rust-musl-cross:aarch64-musl ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:${{ env.RUST_VERSION }}-arm64
           docker push ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:${{ env.RUST_VERSION }}-arm64
+          docker tag messense/rust-musl-cross:aarch64-musl ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:latest-arm64
+          docker push ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:latest-arm64
