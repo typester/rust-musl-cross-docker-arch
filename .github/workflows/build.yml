@@ -2,6 +2,8 @@ name: Push Pulled Rust Images to GHCR
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 2 * * *"  
 
 jobs:
   pull_and_push:
