@@ -19,9 +19,9 @@ Here is the [[https://github.com/typester/typester.dev/blob/main/Dockerfile][act
 ** Notes
 
 - Currently, it is set to build once a day.
-- Supported arch: =linux/amd64= =linux/arm64=
+- Supported arch: =linux/amd64=, =linux/arm64=
 - The Rust version is the one provided by default in the rust-musl-cross image.
-  You can update Rust within the Dockerfile using `rustup update`, but since they update the images relatively frequently, it seems fine to use the built-in version for now, as long as you're using the stable version.
+  You can update Rust within the Dockerfile using =rustup update=, but since they update the images relatively frequently, it seems fine to use the built-in version for now, as long as you're using the stable version.
 
 ** License
 
