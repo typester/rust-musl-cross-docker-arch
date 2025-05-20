@@ -1,0 +1,2 @@
+FROM messense/rust-musl-cross:x86_64-musl
+RUN rustup update stable
