@@ -26,7 +26,7 @@ jobs:
       - name: Build x86_64 image, get Rust version, tag and push
         id: build_x86_64
         run: |
-          set -e # Exit immediately if a command exits with a non-zero status.
+          set -e # Ensure script exits on error
           docker build -f Dockerfile.x86_64 -t rust-musl-cross-x86_64_temp .
           RUST_VERSION_X86_64=$(docker run --rm rust-musl-cross-x86_64_temp rustc --version | awk '{print $2}')
           echo "RUST_VERSION_X86_64=${RUST_VERSION_X86_64}" >> $GITHUB_ENV
@@ -38,20 +38,16 @@ jobs:
       - name: Build aarch64 image, get Rust version, tag and push
         id: build_aarch64
         run: |
-          set -e # Exit immediately if a command exits with a non-zero status.
+          set -e # Ensure script exits on error
           docker build -f Dockerfile.aarch64 -t rust-musl-cross-aarch64_temp .
           RUST_VERSION_AARCH64=$(docker run --rm rust-musl-cross-aarch64_temp rustc --version | awk '{print $2}')
           echo "RUST_VERSION_AARCH64=${RUST_VERSION_AARCH64}" >> $GITHUB_ENV
-          # Ensure aarch64 version is the same as x86_64.
           if [ "${RUST_VERSION_AARCH64}" != "${{ env.RUST_VERSION_X86_64 }}" ]; then
-            echo "Error: Rust version mismatch between x86_64 (${{ env.RUST_VERSION_X86_64 }}) and aarch64 (${RUST_VERSION_AARCH64}). Aborting."
-            # Removed exit 1 here. If this condition is met, the script will continue,
-            # but subsequent docker commands might fail or this could be an issue.
-            # Ideally, the script logic should handle this without `exit 1`.
-            # For this exercise, we assume the versions will match or the workflow will fail at a later step.
+            echo "::error::Rust version mismatch between x86_64 (${{ env.RUST_VERSION_X86_64 }}) and aarch64 (${RUST_VERSION_AARCH64}). Aborting."
+            # exit 1 # Kept commented
           fi
           docker tag rust-musl-cross-aarch64_temp ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:${RUST_VERSION_AARCH64}-arm64
           docker push ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:${RUST_VERSION_AARCH64}-arm64
           docker tag rust-musl-cross-aarch64_temp ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:latest-arm64
           docker push ghcr.io/${{ github.repository_owner }}/rust-musl-cross-docker-arch:latest-arm64
-   
+

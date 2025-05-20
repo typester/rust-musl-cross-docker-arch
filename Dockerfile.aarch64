@@ -1,2 +1,5 @@
 FROM messense/rust-musl-cross:aarch64-musl
-RUN rustup update stable
+RUN rustup self update
+RUN rustup set profile minimal
+RUN rustup update stable --no-self-update
+RUN rustup component add clippy rustfmt # Add common components
